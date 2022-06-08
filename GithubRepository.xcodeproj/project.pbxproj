@@ -61,14 +61,54 @@
 		04DE03DF284E25C600407F11 /* GithubRepository */ = {
 			isa = PBXGroup;
 			children = (
+				04E2975C28506D20007EAB4B /* App */,
+				04E2975D28506D2A007EAB4B /* Presentations */,
+				04E2975E28506D3F007EAB4B /* Resources */,
+			);
+			path = GithubRepository;
+			sourceTree = "<group>";
+		};
+		04E2975C28506D20007EAB4B /* App */ = {
+			isa = PBXGroup;
+			children = (
 				04DE03E0284E25C600407F11 /* AppDelegate.swift */,
 				04DE03E2284E25C600407F11 /* SceneDelegate.swift */,
-				04E2975A28506C15007EAB4B /* RepositoryListViewController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		04E2975D28506D2A007EAB4B /* Presentations */ = {
+			isa = PBXGroup;
+			children = (
+				04E2975F28506E09007EAB4B /* RepositoryList */,
+			);
+			path = Presentations;
+			sourceTree = "<group>";
+		};
+		04E2975E28506D3F007EAB4B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				04DE03E9284E25C700407F11 /* Assets.xcassets */,
 				04DE03EB284E25C700407F11 /* LaunchScreen.storyboard */,
 				04DE03EE284E25C700407F11 /* Info.plist */,
 			);
-			path = GithubRepository;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		04E2975F28506E09007EAB4B /* RepositoryList */ = {
+			isa = PBXGroup;
+			children = (
+				04E2976028506E14007EAB4B /* Views */,
+				04E2975A28506C15007EAB4B /* RepositoryListViewController.swift */,
+			);
+			path = RepositoryList;
+			sourceTree = "<group>";
+		};
+		04E2976028506E14007EAB4B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		0DC6A5CC57DD33E6B72482AF /* Frameworks */ = {
@@ -346,7 +386,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93SFQS52KF;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GithubRepository/Info.plist;
+				INFOPLIST_FILE = GithubRepository/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -374,7 +414,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93SFQS52KF;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GithubRepository/Info.plist;
+				INFOPLIST_FILE = GithubRepository/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
