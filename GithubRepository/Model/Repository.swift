@@ -10,7 +10,8 @@ import RxDataSources
 
 // MARK: - Codable
 
-struct Repository: Codable {
+struct Repository: Codable, Equatable {
+    
     let id: Int
     let name: String
     let description: String
@@ -23,17 +24,24 @@ struct Repository: Codable {
     }
 }
 
+extension Repository: IdentifiableType {
+    
+    var identity: Int {
+        return self.id
+    }
+}
 
 // MARK: - SectionModel
 
-struct RepositorySection {
+struct RepositoryListSection: IdentifiableType {
     var items: [Item]
+    var identity: String
 }
 
-extension RepositorySection: SectionModelType {
+extension RepositoryListSection: AnimatableSectionModelType {
     typealias Item = Repository
 
-    init(original: RepositorySection, items: [Item]) {
+    init(original: RepositoryListSection, items: [Item]) {
         self = original
         self.items = items
     }

@@ -1,4 +1,4 @@
-//
+
 //  RootViewController.swift
 //  GithubRepository
 //
@@ -7,40 +7,39 @@
 
 import UIKit
 
-import RxCocoa
-import RxSwift
+import ReactorKit
 import RxDataSources
 import Then
 
-class RootViewController: UIViewController {
-    
-    private let organization = "Apple"
-    
-    private let repositories = BehaviorSubject<[Repository]>(value: [])
-    private let disposeBag = DisposeBag()
-    
-    
-    // MARK: - Enum
-    
+class RootViewController: UIViewController, ReactorKit.View {
     private enum Text {
-        static let navigationTitle = " Repositories"
+        static let navigationTitle = "Apple Repositories"
         static let refreshTitle = "당겨서 새로고침"
     }
     
+    var disposeBag = DisposeBag()
     
-    // MARK: - UI
+    let refreshControl = UIRefreshControl().then {
+        $0.backgroundColor = .white
+        $0.tintColor = .darkGray
+        $0.attributedTitle = NSAttributedString(string: Text.refreshTitle)
+    }
     
-    private lazy var RepositoryList = UITableView().then {
-        $0.refreshControl = UIRefreshControl().then { /// 리스트 당겨서 새로고침
-            $0.backgroundColor = .white
-            $0.tintColor = .darkGray
-            $0.attributedTitle = NSAttributedString(string: Text.refreshTitle)
-            $0.addTarget(self, action: #selector(self.didDragRefreshControl), for: .valueChanged)
-        }
-    
+    lazy var tableView = UITableView().then {
+        $0.addSubview(self.refreshControl)
         $0.rowHeight = 140
         $0.register(RepositoryListCell.self, forCellReuseIdentifier: "RepositoryListCell")
     }
+    
+    let dataSource = RxTableViewSectionedAnimatedDataSource<RepositoryListSection>(
+        configureCell: { dataSource, tableView, indexPath, reactor -> UITableViewCell in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryListCell", for: indexPath) as! RepositoryListCell
+            
+            cell.repository = reactor
+            
+            return cell
+        }
+    )
     
     
     // MARK: - LifeCycle
@@ -48,70 +47,27 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view = self.RepositoryList
-        self.title = self.organization + Text.navigationTitle
-        self.bindRepositoryList()
+        self.view = self.tableView
+        self.title = Text.navigationTitle
+        
+        self.reactor?.action.onNext(.update)
     }
     
     
     // MARK: - Bind
     
-    private func bindRepositoryList() {
-        let repoObservables = self.fetchRepositories(of: self.organization)
-        repoObservables
-            .bind(to: self.RepositoryList.rx.items) { tableView, index, element -> UITableViewCell in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryListCell") as? RepositoryListCell
-                else { return UITableViewCell() }
-                
-                cell.repository = element
-                return cell
-            }
+    func bind(reactor: RootViewReactor) {
+        // Action (View -> Reactor)
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .map { _ in Reactor.Action.update }
+            .do(onNext: { _ in self.refreshControl.endRefreshing() })
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        // State (Reactor -> View)
+        reactor.state.map { $0.repositories }
+            .map { [RepositoryListSection(items: $0, identity: "")] }
+            .bind(to: self.tableView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
     }
-    
-    
-    // MARK: - Methods
-    
-    @objc func didDragRefreshControl() {
-        self.RepositoryList.refreshControl?.endRefreshing()
-    }
-    
-    private func fetchRepositories(of organization: String) -> Observable<[Repository]> {
-        return Observable.from([organization])
-            .map { organization -> URLRequest in /// String to  URLRequest
-                let url = URL(string: "https://api.github.com/orgs/\(organization)/repos")!
-                return URLRequest(url: url)
-            }
-            .flatMap { request -> Observable<(response: HTTPURLResponse, data: Data)> in
-                return URLSession.shared.rx.response(request: request)
-            }
-            .map { _, data -> [Repository] in
-                guard let json = try? JSONSerialization.jsonObject(with: data), /// json 파싱
-                      let resultArr = json as? [[String: Any]]
-                else {
-                    return []
-                }
-    
-                return resultArr.compactMap { dict -> Repository? in /// compactMap으로 nil 제거 후 data추출
-                    guard let id = dict["id"] as? Int,
-                          let name = dict["name"] as? String,
-                          let description = dict["description"] as? String,
-                          let stargazersCount = dict["stargazers_count"] as? Int,
-                          let language = dict["language"] as? String
-                    else {
-                        return nil
-                    }
-    
-                    return Repository(
-                        id: id,
-                        name: name,
-                        description: description,
-                        stargazersCount: stargazersCount,
-                        language: language
-                    )
-                }
-            }
-    }
-    
 }

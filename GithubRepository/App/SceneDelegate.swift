@@ -16,8 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         
+        let rootViewController = RootViewController()
+        rootViewController.reactor = RootViewReactor()
+        
         self.window = UIWindow(windowScene: windowScene).then {
-            $0.rootViewController = UINavigationController(rootViewController: RootViewController())
+            $0.rootViewController = UINavigationController(rootViewController: rootViewController)
             $0.makeKeyAndVisible()
         }
     }

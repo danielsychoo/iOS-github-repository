@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04D6051E2852D881005D0385 /* RootViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D6051D2852D881005D0385 /* RootViewReactor.swift */; };
 		04DE03E1284E25C600407F11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE03E0284E25C600407F11 /* AppDelegate.swift */; };
 		04DE03E3284E25C600407F11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE03E2284E25C600407F11 /* SceneDelegate.swift */; };
 		04DE03EA284E25C700407F11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DE03E9284E25C700407F11 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04D6051D2852D881005D0385 /* RootViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewReactor.swift; sourceTree = "<group>"; };
 		04DE03DD284E25C600407F11 /* GithubRepository.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubRepository.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DE03E0284E25C600407F11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04DE03E2284E25C600407F11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				04E2976628507DB7007EAB4B /* View */,
 				04E2976428507DAF007EAB4B /* RootViewController.swift */,
+				04D6051D2852D881005D0385 /* RootViewReactor.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E2976528507DAF007EAB4B /* RootViewController.swift in Sources */,
+				04D6051E2852D881005D0385 /* RootViewReactor.swift in Sources */,
 				04DE03E1284E25C600407F11 /* AppDelegate.swift in Sources */,
 				04E29769285083CB007EAB4B /* Repository.swift in Sources */,
 				04DE03E3284E25C600407F11 /* SceneDelegate.swift in Sources */,
